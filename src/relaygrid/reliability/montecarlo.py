@@ -3,7 +3,8 @@ import random
 
 def simulate_failures(rates_per_year: dict[str,float],years: float,seed: int=0):
     rng=random.Random(seed); out=[]
-    for asset,rate in rates_per_year.items():
+    for asset in sorted(rates_per_year):
+        rate = rates_per_year[asset]
         expected=max(0.0,rate*years); whole=int(expected); frac=expected-whole
         count=whole+(1 if rng.random()<frac else 0)
         out.extend([asset]*count)
