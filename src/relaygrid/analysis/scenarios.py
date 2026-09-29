@@ -6,10 +6,16 @@ def cartesian_cases(parameters: dict[str,list]):
     return [dict(zip(names,vals)) for vals in product(*(parameters[n] for n in names))]
 
 def pareto_front(cases,benefit_key,cost_key):
-    front=[]
+    unique=[]
+    seen=set()
     for c in cases:
+        key=(c[benefit_key],c[cost_key])
+        if key in seen: continue
+        seen.add(key); unique.append(c)
+    front=[]
+    for c in unique:
         dominated=False
-        for d in cases:
+        for d in unique:
             if d is c: continue
             if d[benefit_key]>=c[benefit_key] and d[cost_key]<=c[cost_key] and (d[benefit_key]>c[benefit_key] or d[cost_key]<c[cost_key]): dominated=True; break
         if not dominated: front.append(c)

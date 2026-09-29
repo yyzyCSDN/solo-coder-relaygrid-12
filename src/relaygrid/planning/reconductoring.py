@@ -10,4 +10,4 @@ def rank_projects(projects):
     for pid,cost,saidi_saved,loss_saved in projects:
         benefit=saidi_saved*1000+loss_saved*120
         scored.append((benefit/cost if cost>0 else float('inf'),pid))
-    return sorted(scored,reverse=True)
+    return sorted(scored,key=lambda x:(-x[0],x[1]))
